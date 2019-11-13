@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Domain", "Bookstore.Domain\Bookstore.Domain.csproj", "{5F23CC47-7E49-4E45-BCAA-E1CD127BF474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Domain", "Bookstore.Domain\Booking.Domain.csproj", "{5F23CC47-7E49-4E45-BCAA-E1CD127BF474}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

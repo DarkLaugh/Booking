@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bookstore.Domain
+namespace Booking.Domain
 {
     class Resort
     {
@@ -11,7 +11,7 @@ namespace Bookstore.Domain
         public ResortType Type { get; set; }
         public byte ResortTypeId { get; set; }
         public short Capacity { get; set; }
-        public  short Rooms { get; set; }
+        public short Rooms { get; set; }
         public byte Rating { get; set; }
     }
 }

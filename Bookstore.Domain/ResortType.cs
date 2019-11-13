@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bookstore.Domain
+namespace Booking.Domain
 {
     class ResortType
     {
