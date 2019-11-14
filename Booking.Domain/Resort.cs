@@ -13,5 +13,6 @@ namespace Booking.Domain
         public short Capacity { get; set; }
         public short Rooms { get; set; }
         public byte Rating { get; set; }
+        public float Price { get; set; }
     }
 }
