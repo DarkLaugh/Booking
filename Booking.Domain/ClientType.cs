@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Booking.Domain
 {
-    class ClientType
+    public class ClientType
     {
         public byte Id { get; set; }
         public string Name { get; set; }

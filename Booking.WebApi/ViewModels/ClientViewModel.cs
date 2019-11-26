@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using Booking.Domain;
 
-namespace Booking.Domain
+namespace Booking.WebApi.ViewModels
 {
-    public class Client
+    public class ClientViewModel
     {
         public uint Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public byte Age { get; set; }
-        public ClientType Type { get; set; }    }
+        public byte ClientTypeId { get; set; }
+    }
 }
