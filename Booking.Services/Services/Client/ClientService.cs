@@ -14,23 +14,27 @@ namespace Booking.Services.Services.Client
 
         public ClientService(IClientRepository repository, IMapper mapper)
         {
-            repository = _repository;
-            mapper = _mapper;
+            _repository = repository;
+            _mapper = mapper;
         }
         
-        public byte Create(Domain.Client client)
+        public byte Create(Booking.Domain.Client client)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<Data.Models.Client>(client);
+
+            return _repository.Create(entity);
         }
 
         public void Delete(byte id)
         {
-            throw new NotImplementedException();
+            _repository.Detele(id);
         }
 
         public Domain.Client Get(byte id)
         {
-            throw new NotImplementedException();
+            var client = _repository.Get(id);
+
+            return _mapper.Map<Domain.Client>(client);
         }
 
         public IEnumerable<Domain.Client> List()
@@ -42,7 +46,9 @@ namespace Booking.Services.Services.Client
 
         public void Update(Domain.Client client)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<Data.Models.Client>(client);
+
+            _repository.Update(entity);
         }
     }
 }

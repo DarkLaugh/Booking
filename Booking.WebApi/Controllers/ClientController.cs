@@ -11,6 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Booking.WebApi.Validation;
+using Booking.Services.Services.Client;
 
 namespace Booking.WebApi.Controllers
 {
@@ -18,95 +19,62 @@ namespace Booking.WebApi.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
+        private readonly IClientService _clientService;
         private readonly IMapper _mapper;
 
-        public ClientController(IMapper mapper, IMemoryCache cache)
+        public ClientController(IMapper mapper, IClientService clientService)
         {
             _mapper = mapper;
+            _clientService = clientService;
         }
-        
+
         // GET: api/Client
         [HttpGet]
-        public List<Client> GetClients()
+        public IEnumerable<ClientViewModel> GetClients()
         {
-            List<Client> clients = GetAllClients();
+            var clients = _clientService.List();
 
-            return clients;
+            return _mapper.Map<IEnumerable<ClientViewModel>>(clients);
         }
 
         // GET: api/Client/5
         [HttpGet("{id}", Name = "Get")]
-        public Client GetClient(uint id)
+        public IActionResult GetClient(byte id)
         {
-            var client = GetAllClients().SingleOrDefault(c => c.Id == id);
+            var client = _clientService.Get(id);
+            var viewModel = _mapper.Map<ClientViewModel>(client);
 
-            return client;
+            return Ok(viewModel);
         }
 
         // POST: api/Client
         [HttpPost]
-        public IActionResult CreateClient([FromBody] ClientViewModel client)
+        public ClientViewModel CreateClient([FromBody] ClientViewModel viewModel)
         {
-            List<ClientViewModel> clients = new List<ClientViewModel>();
+            var client = _mapper.Map<Client>(viewModel);
 
-            _mapper.Map(GetAllClients(), clients);
+            _clientService.Create(client);
 
-            clients.Add(client);
-
-            return Ok(clients);
+            return _mapper.Map<ClientViewModel>(client);
         }
 
         // PUT: api/Client/5
         [HttpPut("{id}")]
-        public IActionResult UpdateClient(int id, [FromBody] ClientViewModel clientViewModel)
+        public void UpdateClient(byte id, [FromBody] ClientViewModel clientViewModel)
         {
-            List<Client> clients = GetAllClients();
+            clientViewModel.Id = id;
 
-            Client clientInList = clients.SingleOrDefault(c => c.Id == id);
+            var client = _mapper.Map<Client>(clientViewModel);
 
-            _mapper.Map(clientViewModel, clientInList);
-
-            return Ok(clients);
+            _clientService.Update(client);
 
         }
 
         // DELETE: api/Client/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteClient(int id)
+        public void DeleteClient(byte id)
         {
-            List<Client> clients = GetAllClients();
-
-            var client = GetAllClients().SingleOrDefault(c => c.Id == id);
-
-            clients.Remove(client);
-
-            return Ok(clients);
+            _clientService.Delete(id);
         }
-
-
-        private List<Client> GetAllClients()
-        {
-            List<Client> _clients = new List<Client>
-            {
-                new Client
-                {
-                   Id = 1,
-                   FirstName = "John",
-                   LastName = "Richards",
-                   Age = 29
-                },
-
-                new Client
-                {
-                    Id = 2,
-                    FirstName = "Mary",
-                    LastName= "Morningstar",
-                    Age = 30
-                }
-            };
-
-            return _clients;
-        }
-
     }
 }

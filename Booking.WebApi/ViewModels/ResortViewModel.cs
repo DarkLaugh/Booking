@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Booking.Data.Models
+namespace Booking.WebApi.ViewModels
 {
-    public class Resort
+    public class ResortViewModel
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte Id { get; set; }
         public string Name { get; set; }
-        public ResortType ResortType { get; set; }
         public byte ResortTypeId { get; set; }
         public short Capacity { get; set; }
         public short Rooms { get; set; }

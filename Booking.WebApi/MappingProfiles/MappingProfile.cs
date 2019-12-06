@@ -12,8 +12,17 @@ namespace Booking.WebApi.MappingProfiles
     {
         public MappingProfile()
         {
-            //DomainModel to ViewModel
+            //DomainModel to ViewModel and backwards
+
             CreateMap<Client, ClientViewModel>().ReverseMap();
+            CreateMap<ClientType, ClientTypeViewModel>().ReverseMap();
+
+
+            CreateMap<Resort, ResortViewModel>().ReverseMap();
+            CreateMap<ResortType, ResortTypeViewModel>().ReverseMap();
+
+            CreateMap<Reservation, ReservationViewModel>().ReverseMap();
+            CreateMap<Reservation, ReservationGetByIdViewModel>();
         }
     }
 }

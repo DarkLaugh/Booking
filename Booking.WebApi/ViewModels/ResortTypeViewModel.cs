@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Booking.Domain
+namespace Booking.WebApi.ViewModels
 {
-    public class ResortType
+    public class ResortTypeViewModel
     {
         public byte Id { get; set; }
         public string Name { get; set; }

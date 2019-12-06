@@ -11,7 +11,15 @@ namespace Booking.Services.AutoMapperProfile
     {
         public ServicesMapperProfile()
         {
-            CreateMap<Client, Data.Models.Client>().ReverseMap();
+            CreateMap<Booking.Data.Models.Client, Client>().ReverseMap();
+
+            CreateMap<Booking.Data.Models.ClientType, ClientType>().ReverseMap();
+
+            CreateMap<Resort, Data.Models.Resort>().ReverseMap();
+
+            CreateMap<ResortType, Data.Models.ResortType>().ReverseMap();
+
+            CreateMap<Reservation, Data.Models.Reservation>().ReverseMap();
         }
     }
 }

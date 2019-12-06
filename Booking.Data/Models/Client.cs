@@ -15,7 +15,7 @@ namespace Booking.Data.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public byte Age { get; set; }
-        public ClientType ClientType { get; set; }
         public byte ClientTypeId { get; set; }
+        public ClientType ClientType { get; set; }
     }
 }

@@ -18,7 +18,11 @@ namespace Booking.Data.Repository.Client
 
         public byte Create(Models.Client client)
         {
-            _context.Add(client);
+            //client.ClientTypeId = client.ClientType.Id;
+            //client.ClientType = null;
+
+            _context.Clients.Add(client);
+            _context.Entry(client.ClientType).State = EntityState.Unchanged;
             _context.SaveChanges();
 
             return client.Id;
@@ -28,18 +32,28 @@ namespace Booking.Data.Repository.Client
         {
             var client = _context.Clients.SingleOrDefault(c => c.Id == id);
 
-            _context.Remove(client);
+            _context.Clients.Remove(client);
             _context.SaveChanges();
         }
 
-        public Models.Client Get(byte id) => _context.Clients.SingleOrDefault(c => c.Id == id);
+        public Models.Client Get(byte id)
+        {
+            var client =_context.Clients
+                .Include(c => c.ClientType)
+                .SingleOrDefault(c => c.Id == id);
 
-        public IEnumerable<Models.Client> List() => _context.Clients.ToList();
+            return client;
+        }
+
+        public IEnumerable<Models.Client> List() => _context.Clients
+            .Include(c => c.ClientType)
+            .ToList();
 
         public void Update(Models.Client client)
         {
-            _context.Attach(client);
+            _context.Clients.Attach(client);
             _context.Entry(client).State = EntityState.Modified;
+            _context.Entry(client.ClientType).State = EntityState.Unchanged;
             _context.SaveChanges();
         }
     }

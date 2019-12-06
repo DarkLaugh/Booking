@@ -6,9 +6,9 @@ namespace Booking.Domain
 {
     public class Resort
     {
-        public short Id { get; set; }
+        public byte Id { get; set; }
         public string Name { get; set; }
-        public ResortType Type { get; set; }
+        public ResortType ResortType { get; set; }
         public short Capacity { get; set; }
         public short Rooms { get; set; }
         public byte Rating { get; set; }

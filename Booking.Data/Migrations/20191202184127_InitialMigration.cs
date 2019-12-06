@@ -10,8 +10,7 @@ namespace Booking.Data.Migrations
                 name: "ClientTypes",
                 columns: table => new
                 {
-                    Id = table.Column<byte>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<byte>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     DiscountRate = table.Column<byte>(nullable: false)
                 },
@@ -26,8 +25,7 @@ namespace Booking.Data.Migrations
                 {
                     Id = table.Column<byte>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Type = table.Column<byte>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,7 +58,7 @@ namespace Booking.Data.Migrations
                 name: "Resorts",
                 columns: table => new
                 {
-                    Id = table.Column<short>(nullable: false)
+                    Id = table.Column<byte>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     ResortTypeId = table.Column<byte>(nullable: false),
@@ -80,10 +78,46 @@ namespace Booking.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<byte>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<byte>(nullable: false),
+                    ResortId = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Resorts_ResortId",
+                        column: x => x.ResortId,
+                        principalTable: "Resorts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_ClientTypeId",
                 table: "Clients",
                 column: "ClientTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_ClientId",
+                table: "Reservations",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_ResortId",
+                table: "Reservations",
+                column: "ResortId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Resorts_ResortTypeId",
@@ -93,6 +127,9 @@ namespace Booking.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Reservations");
+
             migrationBuilder.DropTable(
                 name: "Clients");
 

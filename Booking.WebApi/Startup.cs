@@ -15,6 +15,9 @@ using FluentValidation.AspNetCore;
 using Booking.WebApi.Validation;
 using Booking.Data;
 using Microsoft.EntityFrameworkCore;
+using Booking.Data.DependencyInjection;
+using Booking.Services.Dependency_Injection;
+using Booking.WebApi.MappingProfiles;
 
 namespace Booking.WebApi
 {
@@ -26,16 +29,28 @@ namespace Booking.WebApi
             Configuration = configuration;
         }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ClientValidator>());
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(BookingServiceModule), typeof(MappingProfile));
 
             services.AddDbContext<BookingContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BookingDatabase")));
+
+            services.AddServiceDataModule(Configuration);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +62,8 @@ namespace Booking.WebApi
             }
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

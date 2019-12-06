@@ -47,9 +47,7 @@ namespace Booking.Data.Migrations
             modelBuilder.Entity("Booking.Data.Models.ClientType", b =>
                 {
                     b.Property<byte>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("tinyint");
 
                     b.Property<byte>("DiscountRate")
                         .HasColumnType("tinyint");
@@ -62,11 +60,33 @@ namespace Booking.Data.Migrations
                     b.ToTable("ClientTypes");
                 });
 
+            modelBuilder.Entity("Booking.Data.Models.Reservation", b =>
+                {
+                    b.Property<byte>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte>("ClientId")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("ResortId")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ResortId");
+
+                    b.ToTable("Reservations");
+                });
+
             modelBuilder.Entity("Booking.Data.Models.Resort", b =>
                 {
-                    b.Property<short>("Id")
+                    b.Property<byte>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
+                        .HasColumnType("tinyint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<short>("Capacity")
@@ -104,9 +124,6 @@ namespace Booking.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte>("Type")
-                        .HasColumnType("tinyint");
-
                     b.HasKey("Id");
 
                     b.ToTable("ResortTypes");
@@ -121,9 +138,24 @@ namespace Booking.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Booking.Data.Models.Reservation", b =>
+                {
+                    b.HasOne("Booking.Data.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Booking.Data.Models.Resort", "Resort")
+                        .WithMany()
+                        .HasForeignKey("ResortId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Booking.Data.Models.Resort", b =>
                 {
-                    b.HasOne("Booking.Data.Models.ResortType", "Type")
+                    b.HasOne("Booking.Data.Models.ResortType", "ResortType")
                         .WithMany()
                         .HasForeignKey("ResortTypeId")
                         .OnDelete(DeleteBehavior.Cascade)

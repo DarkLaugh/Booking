@@ -9,7 +9,6 @@ namespace Booking.Data.Models
 {
     public class ClientType
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte Id { get; set; }
         public string Name { get; set; }
         public byte DiscountRate { get; set; }

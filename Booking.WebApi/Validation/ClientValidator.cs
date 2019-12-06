@@ -21,7 +21,7 @@ namespace Booking.WebApi.Validation
                 .NotNull();
 
             RuleFor(x => x.Age)
-                .Must(number => number > 18)
+                .Must(number => number >= 18)
                 .WithMessage("You must be 18 years old or more to be a client.");
         }
     }
