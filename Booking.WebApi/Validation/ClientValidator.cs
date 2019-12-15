@@ -15,14 +15,21 @@ namespace Booking.WebApi.Validation
                 .NotNull();
 
             RuleFor(x => x.FirstName)
-                .NotNull();
+                .NotEmpty()
+                .WithMessage("You didn't enter a valid first name.");
 
             RuleFor(x => x.LastName)
-                .NotNull();
+                .NotEmpty()
+                .WithMessage("You didn't enter a valid last name.");
 
             RuleFor(x => x.Age)
                 .Must(number => number >= 18)
                 .WithMessage("You must be 18 years old or more to be a client.");
+
+            RuleFor(x => x.ClientTypeId)
+                .NotNull()
+                .Must(ct => ct >= 1 && ct <= 3)
+                .WithMessage("Please select a valid client type.");
         }
     }
 }
