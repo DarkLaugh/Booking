@@ -30,11 +30,16 @@ namespace Booking.WebApi.Controllers
 
         // GET: api/Client
         [HttpGet]
-        public IEnumerable<ClientViewModel> GetClients()
+        public IActionResult GetClients()
         {
             var clients = _clientService.List();
 
-            return _mapper.Map<IEnumerable<ClientViewModel>>(clients);
+            if (clients.ToList().Count == 0)
+            {
+                return NotFound(new { NotFoundError = "We stil do not have any clients." });
+            }
+
+            return Ok(_mapper.Map<IEnumerable<ClientViewModel>>(clients));
         }
 
         // GET: api/Client/5
@@ -42,6 +47,12 @@ namespace Booking.WebApi.Controllers
         public IActionResult GetClient(byte id)
         {
             var client = _clientService.Get(id);
+
+            if (client == null)
+            {
+                return NotFound(new { NotFoundError = $"A client with ID - {id} does not exist." });
+            }
+
             var viewModel = _mapper.Map<ClientViewModel>(client);
 
             return Ok(viewModel);
@@ -60,7 +71,7 @@ namespace Booking.WebApi.Controllers
 
         // PUT: api/Client/5
         [HttpPut("{id}")]
-        public void UpdateClient(byte id, [FromBody] ClientViewModel clientViewModel)
+        public IActionResult UpdateClient(byte id, [FromBody] ClientViewModel clientViewModel)
         {
             clientViewModel.Id = id;
 
@@ -68,13 +79,16 @@ namespace Booking.WebApi.Controllers
 
             _clientService.Update(client);
 
+            return Accepted(new { UpdatedInformation = clientViewModel });
         }
 
         // DELETE: api/Client/5
         [HttpDelete("{id}")]
-        public void DeleteClient(byte id)
+        public IActionResult DeleteClient(byte id)
         {
             _clientService.Delete(id);
+
+            return Ok();
         }
     }
 }

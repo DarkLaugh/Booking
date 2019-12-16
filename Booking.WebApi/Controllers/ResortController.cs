@@ -25,11 +25,16 @@ namespace Booking.WebApi.Controllers
 
         // GET: api/Resort
         [HttpGet]
-        public IEnumerable<ResortViewModel> GetResorts()
+        public IActionResult GetResorts()
         {
             var resorts = _resortService.List();
 
-            return _mapper.Map<IEnumerable<ResortViewModel>>(resorts);
+            if (resorts.ToList().Count == 0)
+            {
+                return NotFound(new { NotFoundError = "We stil do not have any resorts listed." });
+            }
+
+            return Ok(_mapper.Map<IEnumerable<ResortViewModel>>(resorts));
         }
 
         // GET: api/Resort/5
@@ -37,6 +42,12 @@ namespace Booking.WebApi.Controllers
         public IActionResult GetResort(byte id)
         {
             var resort = _resortService.Get(id);
+
+            if (resort == null)
+            {
+                return NotFound(new { NotFoundError = $"A resort with ID - {id} does not exist." });
+            }
+
             var viewModel = _mapper.Map<ResortViewModel>(resort);
 
             return Ok(viewModel);
@@ -55,20 +66,24 @@ namespace Booking.WebApi.Controllers
 
         // PUT: api/Resort/5
         [HttpPut("{id}")]
-        public void UpdateResort(byte id, [FromBody] ResortViewModel resortViewModel)
+        public IActionResult UpdateResort(byte id, [FromBody] ResortViewModel resortViewModel)
         {
             resortViewModel.Id = id;
 
             var resort = _mapper.Map<Domain.Resort>(resortViewModel);
 
             _resortService.Update(resort);
+
+            return Accepted(new { UpdatedInformation = resortViewModel });
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void DeleteResort(byte id)
+        public IActionResult DeleteResort(byte id)
         {
             _resortService.Delete(id);
+
+            return Ok();
         }
     }
 }

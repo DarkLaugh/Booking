@@ -26,20 +26,30 @@ namespace Booking.WebApi.Controllers
 
         // GET: api/Reservation
         [HttpGet]
-        public IEnumerable<ReservationViewModel> GetReservations()
+        public IActionResult GetReservations()
         {
             var reservations = _reservationService.List();
 
-            return _mapper.Map<IEnumerable<ReservationViewModel>>(reservations);
+            if (reservations.ToList().Count == 0)
+            {
+                return NotFound(new { NotFoundError = "We stil do not have any reservations." });
+            }
+
+            return Ok(_mapper.Map<IEnumerable<ReservationViewModel>>(reservations));
         }
 
         // GET: api/Reservation/5
         [HttpGet("{id}")]
-        public ReservationGetByIdViewModel Get(byte id)
+        public IActionResult Get(byte id)
         {
             var reservation = _reservationService.Get(id);
 
-            return _mapper.Map<ReservationGetByIdViewModel>(reservation);
+            if (reservation == null)
+            {
+                return NotFound(new { NotFoundError = $"A reservation with ID - {id} does not exist." });
+            }
+
+            return Ok(_mapper.Map<ReservationGetByIdViewModel>(reservation));
         }
 
         // POST: api/Reservation
@@ -55,9 +65,11 @@ namespace Booking.WebApi.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(byte id)
+        public IActionResult Delete(byte id)
         {
             _reservationService.Detele(id);
+
+            return Ok();
         }
     }
 }
