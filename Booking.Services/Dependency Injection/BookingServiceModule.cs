@@ -7,6 +7,7 @@ using Booking.Services.Services.Client;
 using Booking.Data.DependencyInjection;
 using Booking.Services.Services.Resort;
 using Booking.Services.Services.Reservation;
+using Booking.Services.Services.User;
 
 namespace Booking.Services.Dependency_Injection
 {
@@ -21,6 +22,8 @@ namespace Booking.Services.Dependency_Injection
             services.AddScoped<IResortService, ResortService>();
 
             services.AddScoped<IReservationService, ReservationService>();
+
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

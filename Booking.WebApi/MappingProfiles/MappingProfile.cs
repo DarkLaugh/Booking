@@ -23,6 +23,8 @@ namespace Booking.WebApi.MappingProfiles
 
             CreateMap<Reservation, ReservationViewModel>().ReverseMap();
             CreateMap<Reservation, ReservationGetByIdViewModel>();
+
+            CreateMap<User, UserViewModel>().ReverseMap();
         }
     }
 }

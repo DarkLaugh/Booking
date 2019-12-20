@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Booking.Data.Repository.Resorts;
 using Booking.Data.Repository.Reservation;
+using Booking.Data.Repository.User;
 
 namespace Booking.Data.DependencyInjection
 {
@@ -22,6 +23,8 @@ namespace Booking.Data.DependencyInjection
             services.AddScoped<IResortRepository, ResortRepository>();
 
             services.AddScoped<IReservationRepository, ReservationRepository>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

@@ -20,6 +20,8 @@ namespace Booking.Services.AutoMapperProfile
             CreateMap<ResortType, Data.Models.ResortType>().ReverseMap();
 
             CreateMap<Reservation, Data.Models.Reservation>().ReverseMap();
+
+            CreateMap<User, Data.Models.User>().ReverseMap();
         }
     }
 }

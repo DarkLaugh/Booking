@@ -18,6 +18,8 @@ using Microsoft.EntityFrameworkCore;
 using Booking.Data.DependencyInjection;
 using Booking.Services.Dependency_Injection;
 using Booking.WebApi.MappingProfiles;
+using Microsoft.AspNetCore.Identity;
+using Booking.Data.Models;
 
 namespace Booking.WebApi
 {
@@ -51,6 +53,17 @@ namespace Booking.WebApi
                     builder.WithOrigins("http://localhost:3000");
                 });
             });
+
+            services.AddIdentity<User, IdentityRole>(config =>
+            {
+                config.Password.RequiredLength = 5;
+                config.Password.RequireDigit = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireLowercase = false;
+            })
+                .AddEntityFrameworkStores<BookingContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
