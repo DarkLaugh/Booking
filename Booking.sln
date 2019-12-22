@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Booking.Domain", "Booking.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Booking.WebApi", "Booking.WebApi\Booking.WebApi.csproj", "{4D49073C-2701-41B8-A861-628A45B43EE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Data", "Booking.Data\Booking.Data.csproj", "{CAE5658D-79F7-495B-8517-E6D4C857D305}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Booking.Data", "Booking.Data\Booking.Data.csproj", "{CAE5658D-79F7-495B-8517-E6D4C857D305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Services", "Booking.Services\Booking.Services.csproj", "{D37603E3-52D2-4D30-9996-0A43FCB47DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Booking.Services", "Booking.Services\Booking.Services.csproj", "{D37603E3-52D2-4D30-9996-0A43FCB47DF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

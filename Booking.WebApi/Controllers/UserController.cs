@@ -41,5 +41,41 @@ namespace Booking.WebApi.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("{username}")]
+        public IActionResult Find(string username)
+        {
+            var find = _userService.UserExists(username);
+
+            if (find.Result)
+            {
+                return Ok();
+            }
+
+            else
+            {
+                return NotFound(new { error = "User does not exist." });
+            }
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginUserViewModel loginUserViewModel)
+        {
+            string username = loginUserViewModel.UserName;
+            string password = loginUserViewModel.Password;
+
+            var login = _userService.Login(username, password);
+
+            if (login.Result.Succeeded)
+            {
+                return Ok();
+            }
+
+            else
+            {
+                return BadRequest(new { error = "Wrong username or password." });
+            }
+        }
     }
 }
