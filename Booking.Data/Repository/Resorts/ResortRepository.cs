@@ -35,14 +35,16 @@ namespace Booking.Data.Repository.Resorts
 
         public Resort Get(byte id)
         {
-            var resort = _context.Resorts.SingleOrDefault(r => r.Id == id);
+            var resort = _context.Resorts.
+                Include(r => r.ResortType)
+                .SingleOrDefault(r => r.Id == id);
 
             return resort;
         }
 
         public IEnumerable<Resort> List()
         {
-            return _context.Resorts.ToList();
+            return _context.Resorts.Include(r => r.ResortType).ToList();
         }
 
         public void Update(Resort resort)

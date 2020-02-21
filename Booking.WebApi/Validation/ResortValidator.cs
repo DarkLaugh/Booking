@@ -29,7 +29,7 @@ namespace Booking.WebApi.Validation
 
             RuleFor(x => x.ResortTypeId)
                 .NotNull()
-                .Must(rt => rt >= 2 && rt <= 3)
+                .Must(rt => rt >= 1 && rt <= 3)
                 .WithMessage("Please provide a valid resort type.");
 
             RuleFor(x => x.Capacity)

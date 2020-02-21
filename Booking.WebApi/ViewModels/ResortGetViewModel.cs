@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Booking.Domain
+namespace Booking.WebApi.ViewModels
 {
-    public class Resort
+    public class ResortGetViewModel
     {
         public byte Id { get; set; }
         public string Name { get; set; }
-        public ResortType ResortType { get; set; }
+        public ResortTypeViewModel ResortType { get; set; }
         public short Capacity { get; set; }
         public short Rooms { get; set; }
         public byte Rating { get; set; }

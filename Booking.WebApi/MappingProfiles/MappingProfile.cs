@@ -19,6 +19,7 @@ namespace Booking.WebApi.MappingProfiles
 
 
             CreateMap<Resort, ResortViewModel>().ReverseMap();
+            CreateMap<Resort, ResortGetViewModel>().ReverseMap();
             CreateMap<ResortType, ResortTypeViewModel>().ReverseMap();
 
             CreateMap<Reservation, ReservationViewModel>().ReverseMap();

@@ -18,5 +18,6 @@ namespace Booking.Data.Models
         public short Rooms { get; set; }
         public byte Rating { get; set; }
         public float Price { get; set; }
+        public string ImageURL { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Booking.WebApi.Controllers
                 return NotFound(new { NotFoundError = "We stil do not have any resorts listed." });
             }
 
-            return Ok(_mapper.Map<IEnumerable<ResortViewModel>>(resorts));
+            return Ok(_mapper.Map<IEnumerable<ResortGetViewModel>>(resorts));
         }
 
         // GET: api/Resort/5
@@ -48,7 +48,7 @@ namespace Booking.WebApi.Controllers
                 return NotFound(new { NotFoundError = $"A resort with ID - {id} does not exist." });
             }
 
-            var viewModel = _mapper.Map<ResortViewModel>(resort);
+            var viewModel = _mapper.Map<ResortGetViewModel>(resort);
 
             return Ok(viewModel);
         }
