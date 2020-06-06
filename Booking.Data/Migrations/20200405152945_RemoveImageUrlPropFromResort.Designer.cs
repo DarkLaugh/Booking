@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking.Data.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20200220152547_AddedImageURLToResortModel")]
-    partial class AddedImageURLToResortModel
+    [Migration("20200405152945_RemoveImageUrlPropFromResort")]
+    partial class RemoveImageUrlPropFromResort
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,9 +95,6 @@ namespace Booking.Data.Migrations
                     b.Property<short>("Capacity")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("ImageURL")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -112,6 +109,9 @@ namespace Booking.Data.Migrations
 
                     b.Property<short>("Rooms")
                         .HasColumnType("smallint");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Booking.Services.Services.Resort;
 using Booking.WebApi.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +18,13 @@ namespace Booking.WebApi.Controllers
     {
         private readonly IResortService _resortService;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _env;
 
-        public ResortController(IResortService resortService, IMapper mapper)
+        public ResortController(IResortService resortService, IMapper mapper, IWebHostEnvironment env)
         {
             _mapper = mapper;
             _resortService = resortService;
+            _env = env;
         }
 
         // GET: api/Resort
@@ -31,7 +35,7 @@ namespace Booking.WebApi.Controllers
 
             if (resorts.ToList().Count == 0)
             {
-                return NotFound(new { NotFoundError = "We stil do not have any resorts listed." });
+                return NotFound(new { errorMessage = "We still do not have any resorts listed." });
             }
 
             return Ok(_mapper.Map<IEnumerable<ResortGetViewModel>>(resorts));
@@ -45,7 +49,7 @@ namespace Booking.WebApi.Controllers
 
             if (resort == null)
             {
-                return NotFound(new { NotFoundError = $"A resort with ID - {id} does not exist." });
+                return NotFound(new { errorMessage = $"A resort with ID - {id} does not exist." });
             }
 
             var viewModel = _mapper.Map<ResortGetViewModel>(resort);
@@ -55,17 +59,22 @@ namespace Booking.WebApi.Controllers
 
         // POST: api/Resort
         [HttpPost]
-        public ResortViewModel CreateResort([FromBody] ResortViewModel resortViewModel)
+        public async Task<ResortGetViewModel> CreateResort([FromForm] ResortViewModel resortViewModel)
         {
+            if (resortViewModel.Thumbnail != null)
+            {
+                await UploadThumbnail(resortViewModel);
+            }
+
             var resort = _mapper.Map<Domain.Resort>(resortViewModel);
 
             _resortService.Create(resort);
 
-            return _mapper.Map<ResortViewModel>(resort);
+            return _mapper.Map<ResortGetViewModel>(resort);
         }
 
         // PUT: api/Resort/5
-        [HttpPut("{id}")]
+        [HttpPut("{ id}")]
         public IActionResult UpdateResort(byte id, [FromBody] ResortViewModel resortViewModel)
         {
             resortViewModel.Id = id;
@@ -84,6 +93,19 @@ namespace Booking.WebApi.Controllers
             _resortService.Delete(id);
 
             return Ok();
+        }
+
+        public async Task UploadThumbnail(ResortViewModel resortViewModel)
+        {
+            string uniqueFileName;
+            string uploadsFolder = @"C:\Booking\booking.web.app\src\images\";
+            uniqueFileName = resortViewModel.Name + "_" + resortViewModel.Thumbnail.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            {
+                await resortViewModel.Thumbnail.CopyToAsync(fs);
+            }
         }
     }
 }

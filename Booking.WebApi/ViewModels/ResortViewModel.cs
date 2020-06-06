@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Booking.WebApi.ViewModels
 {
@@ -14,6 +16,6 @@ namespace Booking.WebApi.ViewModels
         public short Rooms { get; set; }
         public byte Rating { get; set; }
         public float Price { get; set; }
-        public string ImageURL { get; set; }
+        public IFormFile Thumbnail { get; set; }
     }
 }

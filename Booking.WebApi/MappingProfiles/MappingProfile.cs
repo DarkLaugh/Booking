@@ -18,7 +18,11 @@ namespace Booking.WebApi.MappingProfiles
             CreateMap<ClientType, ClientTypeViewModel>().ReverseMap();
 
 
-            CreateMap<Resort, ResortViewModel>().ReverseMap();
+            CreateMap<Resort, ResortViewModel>().ReverseMap()
+                .ForMember(r => r.Thumbnail, rvm => rvm.MapFrom(rvm => (rvm.Thumbnail != null)
+                                                                ? rvm.Name + "_" + rvm.Thumbnail.FileName
+                                                                : null));;
+
             CreateMap<Resort, ResortGetViewModel>().ReverseMap();
             CreateMap<ResortType, ResortTypeViewModel>().ReverseMap();
 
