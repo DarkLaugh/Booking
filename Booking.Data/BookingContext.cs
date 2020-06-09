@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Booking.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Booking.Data.Configure;
 
 namespace Booking.Data
 {
@@ -19,6 +20,13 @@ namespace Booking.Data
             : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new ClientTypeConfiguration());
+            builder.ApplyConfiguration(new ResortTypeConfiguration());
+            base.OnModelCreating(builder);
         }
 
         protected BookingContext()
