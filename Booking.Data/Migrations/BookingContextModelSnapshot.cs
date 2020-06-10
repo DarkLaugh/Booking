@@ -59,6 +59,26 @@ namespace Booking.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClientTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            DiscountRate = (byte)30,
+                            Name = "VIP"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            DiscountRate = (byte)15,
+                            Name = "Regular"
+                        },
+                        new
+                        {
+                            Id = (byte)3,
+                            DiscountRate = (byte)0,
+                            Name = "Normal"
+                        });
                 });
 
             modelBuilder.Entity("Booking.Data.Models.Reservation", b =>
@@ -131,6 +151,18 @@ namespace Booking.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ResortTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            Name = "Summer"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Name = "Winter"
+                        });
                 });
 
             modelBuilder.Entity("Booking.Data.Models.User", b =>

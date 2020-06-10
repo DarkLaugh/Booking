@@ -90,8 +90,7 @@ namespace Booking.Data.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Age = table.Column<byte>(nullable: false),
-                    ClientTypeId = table.Column<byte>(nullable: false),
-                    Password = table.Column<string>(nullable: true)
+                    ClientTypeId = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,7 +136,8 @@ namespace Booking.Data.Migrations
                     Capacity = table.Column<short>(nullable: false),
                     Rooms = table.Column<short>(nullable: false),
                     Rating = table.Column<byte>(nullable: false),
-                    Price = table.Column<float>(nullable: false)
+                    Price = table.Column<float>(nullable: false),
+                    Thumbnail = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -259,6 +259,25 @@ namespace Booking.Data.Migrations
                         principalTable: "Resorts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "ClientTypes",
+                columns: new[] { "Id", "DiscountRate", "Name" },
+                values: new object[,]
+                {
+                    { (byte)1, (byte)30, "VIP" },
+                    { (byte)2, (byte)15, "Regular" },
+                    { (byte)3, (byte)0, "Normal" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ResortTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { (byte)1, "Summer" },
+                    { (byte)2, "Winter" }
                 });
 
             migrationBuilder.CreateIndex(
