@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Booking.Domain;
+using Microsoft.AspNetCore.Http;
 
 namespace Booking.Services.Services.Resort
 {
@@ -12,5 +14,6 @@ namespace Booking.Services.Services.Resort
         byte Create(Domain.Resort resort);
         void Update(Domain.Resort resort);
         void Delete(byte id);
+        Task UploadThumbnail(IFormFile thumbnail, string fileName, string resortName);
     }
 }

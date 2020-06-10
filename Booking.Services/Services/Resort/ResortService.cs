@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Booking.Data.Repository.Resorts;
 using Booking.Domain;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Booking.Services.Services.Resort
 {
@@ -49,6 +52,23 @@ namespace Booking.Services.Services.Resort
             var entity = _mapper.Map<Data.Models.Resort>(resort);
 
             _repository.Update(entity);
+        }
+
+        public async Task UploadThumbnail(IFormFile thumbnail, string fileName, string resortName)
+        {
+            string uniqueFileName;
+            string uploadsFolder = @"..\images\";
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+            uniqueFileName = resortName + "_" + fileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            {
+                await thumbnail.CopyToAsync(fs);
+            }
         }
     }
 }

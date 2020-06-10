@@ -63,7 +63,7 @@ namespace Booking.WebApi.Controllers
         {
             if (resortViewModel.Thumbnail != null)
             {
-                await UploadThumbnail(resortViewModel);
+                await _resortService.UploadThumbnail(resortViewModel.Thumbnail, resortViewModel.Thumbnail.FileName, resortViewModel.Name);
             }
 
             var resort = _mapper.Map<Domain.Resort>(resortViewModel);
@@ -86,26 +86,13 @@ namespace Booking.WebApi.Controllers
             return Accepted(new { UpdatedInformation = resortViewModel });
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Resort/5
         [HttpDelete("{id}")]
         public IActionResult DeleteResort(byte id)
         {
             _resortService.Delete(id);
 
             return Ok();
-        }
-
-        public async Task UploadThumbnail(ResortViewModel resortViewModel)
-        {
-            string uniqueFileName;
-            string uploadsFolder = @"C:\Booking\booking.web.app\src\images\";
-            uniqueFileName = resortViewModel.Name + "_" + resortViewModel.Thumbnail.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
-            {
-                await resortViewModel.Thumbnail.CopyToAsync(fs);
-            }
         }
     }
 }
