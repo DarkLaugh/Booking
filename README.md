@@ -7,3 +7,6 @@ in order to install the modules needed to run the React app.
 
 3. After those are installed , you can start both projects using the <b>start-project.bat</b> file located in
 Booking-BE.
+
+<b>Since the app is still in development, after you've started both projects you can navigate to
+  localhost:3000/resort/register in order to add a new entry.</b>
